@@ -93,4 +93,4 @@
   sudo pcs constraint order set Cluster_VIP WebServer
   ```
 
-(More info)[https://www.digitalocean.com/community/tutorials/how-to-set-up-an-apache-active-passive-cluster-using-pacemaker-on-centos-7] 
+[More info](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-apache-active-passive-cluster-using-pacemaker-on-centos-7) 
