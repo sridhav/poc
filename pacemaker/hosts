@@ -1,0 +1,5 @@
+127.0.0.1   localhost
+
+192.168.66.11   pacemaker1.cs   pacemaker1
+192.168.66.12   pacemaker2.cs   pacemaker2
+192.168.66.13   pacemaker3.cs   pacemaker3
