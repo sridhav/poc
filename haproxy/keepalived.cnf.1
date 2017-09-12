@@ -1,0 +1,22 @@
+global_defs {
+  router_id haproxy.cs
+}
+vrrp_script haproxy {
+  script "killall -0 haproxy"
+  interval 2
+  weight 2
+}
+vrrp_instance 50 {
+  virtual_router_id 50
+  advert_int 1
+  nopreempt
+  priority 101
+  state MASTER
+  interface eth1
+  virtual_ipaddress {
+    192.168.66.10 dev eth1
+  }
+  track_script {
+    haproxy
+  }
+}

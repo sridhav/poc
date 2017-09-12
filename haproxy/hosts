@@ -1,0 +1,4 @@
+127.0.0.1   localhost
+
+192.168.66.11   haproxy1.cs     haproxy1
+192.168.66.12   haproxy2.cs     haproxy2
