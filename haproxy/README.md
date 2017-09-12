@@ -161,6 +161,60 @@ sudo service keepalived start
 
 ### HAProxy
 
+* Enable a httpcheck for mysql
+  ```
+  yum -y install xinetd wget
+
+  wget -O /usr/bin/clustercheck https://raw.githubusercontent.com/olafz/percona-clustercheck/master/clustercheck
+
+  chmod +x /usr/bin/clustercheck
+
+  cat > /etc/xinet.d/mysqlchk <<EOF
+  # default: on
+  # description: mysqlchk
+  service mysqlchk
+  {
+          disable = no
+          flags = REUSE
+          socket_type = stream
+          port = 9200
+          wait = no
+          user = nobody
+          server = /usr/bin/clustercheck
+          log_on_failure += USERID
+          only_from = 0.0.0.0/0
+          bind = <galera_public_interface>
+          per_source = UNLIMITED
+  }
+
+  EOF
+
+  echo "mysqlchk  9200/tcp" | tee -a /etc/services
+
+  systemctl enable xinetd
+
+  systemctl start xinetd
+  
+  ```
+* Enable a http check haproxy.cfg
+  ```
+  backends
+    ....
+    option httpchk
+    server haproxy1	192.168.66.11:3306 check port 9200 weight 1
+    ....
+  ```
+
+* Enable a tcp check haproxy.cfg
+  ```
+  backends
+    ....
+    option tcpka
+    option mysql-check user haproxy
+    server haproxy1	192.168.66.11:3306 check weight 1
+    ....
+  ```
+
 * Install haproxy
   ```
   yum -y install haproxy
